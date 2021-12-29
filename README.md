@@ -1,7 +1,8 @@
 # personal_finance
 A personal finance dashboard to track current expenses and income streams.
-Technology used is web via streamlit api. 
-The whole project will be written in python. 
+Technology used is web via streamlit. 
+The whole project will be written in python. \
+This is a personal project based on my interest. Feel free to clone this repo or to make some pull request if needed. **THANKS**
 
 # Basic Goals for me in this projekt are:
 * understanding streamlit
