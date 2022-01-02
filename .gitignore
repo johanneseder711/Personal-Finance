@@ -130,3 +130,6 @@ dmypy.json
 
 # Credentials 
 /Credentials/my_credentials.txt
+
+# ignore geckodriver.log
+/test\ streamlit/geckodriver.log
