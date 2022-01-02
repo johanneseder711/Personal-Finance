@@ -133,3 +133,6 @@ dmypy.json
 
 # ignore geckodriver.log
 /test\ streamlit/geckodriver.log
+
+# ignore csv data
+/data/MoneyControl-CSVExport_2021-12-29.csv
