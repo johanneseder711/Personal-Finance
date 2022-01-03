@@ -14,7 +14,7 @@ def main():
 	render_web_data(total_flatex_value,absolute_profit,total_raiffeisen_giro_value,total_raiffeisen_creditcard_value,n26_balance,n26_last_transaction)
 
 	# render dataframe from money control
-	render_df('../../data/MoneyControl/MoneyControl-CSVExport_2021-12-29.csv')
+	render_df('../../data/MoneyControl/MoneyControl-CSVExport_2022-01-03.csv')
 
 
 # execute main function
