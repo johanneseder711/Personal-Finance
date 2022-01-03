@@ -1,36 +1,45 @@
 import streamlit as st
 import pandas as pd
 
-
-
-def render_web_data(total_flatex_value, absolute_profit, total_raiffeisen_giro_value, total_raiffeisen_creditcard_value):
+def render_web_data(total_flatex_value, absolute_profit, total_raiffeisen_giro_value, total_raiffeisen_creditcard_value, n26_balance, n26_last_transaction):
 	# create page title
 	st.title('Personal Finanz Tracker')
 	st.header('Übersicht und Zusammenfassung von Vermögen')
 	# display values via metrics
-	col1, col2, col3 = st.columns(3)
-	col1.metric(label="Flatex Total Value", value=total_flatex_value + " €", delta=absolute_profit + " €")
-	col2.metric(label='Raiffeisen Giro Total Value', value = total_raiffeisen_giro_value + " €")
-	col3.metric(label='Raiffeisen Creditcard Total Value', value = total_raiffeisen_creditcard_value + " €")
+	l1_col1, l1_col2 = st.columns(2)
+	l2_col1, l2_col2 = st.columns(2)
+	l1_col1.metric(label="Flatex Total Value", value=total_flatex_value + " €", delta=absolute_profit + " €")
+	l1_col2.metric(label='Raiffeisen Giro Total Value', value = total_raiffeisen_giro_value + " €")
+	l2_col1.metric(label='Raiffeisen Creditcard Total Value', value = total_raiffeisen_creditcard_value + " €")
+	l2_col2.metric(label='N26 Total Value', value=n26_balance + " €", delta=n26_last_transaction + " €")
 
 def render_df(PATH_DATA):
 
 	# read in data and extract date information
 	df = pd.read_csv(PATH_DATA,sep=";",parse_dates=['Datum'])
-	df['Betrag'] = df.Betrag.str.replace('.','').str.replace(',','.').astype('float')
+	df['Betrag'] = df.Betrag + ' €'
 	df['Tag'] = df.Datum.dt.day
 	df['Monat'] = df.Datum.dt.month
 	df['Jahr'] = df.Datum.dt.year
 	df = df[df.Jahr == 2021]
+ 
+	types_of_moneyflow = ['Alles anzeigen'] + list(df.Typ.unique())
+	types_of_accounts = ['Alle Konten', 'N26', 'ING', 'Girokonto Raika', 'Kreditkarte Raika', 'Bargeldrücklage']
+	filter_col1, filters_col2 = st.columns(2)
+	
+	filter_money = filter_col1.radio('Nach welchen Typen soll gefiltert werden?',types_of_moneyflow)
+	if filter_money != 'Alles anzeigen':
+		df = df[df.Typ == filter_money]
+	filter_konto = filters_col2.radio('Nach welchem Konto soll gefiltert werden?', types_of_accounts)
+	if filter_konto != 'Alle Konten':
+		df = df[df.Konto == filter_konto]
 
-	option = st.selectbox(
-	     'Wonach soll gefiltert werden?',
-	     ('Datum', 'Kategorie'))
+	num_elems = st.slider('Wie viele Zeilen sollen betrachtet werden', 0, len(df), len(df)//5)
+	st.dataframe(df.sort_values('Datum',ascending=False).iloc[:num_elems])
 
-	if option == 'Datum':
-	    num_elems = st.slider('Wie viele Zeilen sollen betrachtet werden', 0, len(df), 50)
-	    st.dataframe(df.sort_values('Datum',ascending=False).iloc[:num_elems])
-	    #df_by_day = df.groupby(['Monat']).sum()
-	else:
-	    df_by_category = df.groupby('Kategorie').sum()
-	    st.bar_chart(df_by_category.sort_values('Betrag',ascending=False)['Betrag'])
+	df['Betrag'] = df.Betrag.str.replace('.','').str.replace(',','.').str.replace(' €','').astype('float')
+	df_grouped = df.groupby(['Monat']).sum()
+	st.line_chart(df_grouped.Betrag)
+
+    #df_by_category = df.groupby('Kategorie').sum()
+    #st.bar_chart(df_by_category.sort_values('Betrag',ascending=False)['Betrag'])
