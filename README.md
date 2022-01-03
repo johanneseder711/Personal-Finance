@@ -1,4 +1,4 @@
-# personal_finance
+# Personal Finance Tracker
 A personal finance dashboard to track current expenses and income streams.
 Technology used is web via streamlit. 
 The whole project will be written in python. \
