@@ -135,7 +135,7 @@ dmypy.json
 /test\ streamlit/geckodriver.log
 
 # ignore csv data
-**/data
+/data/MoneyControl-CSVExport_2021-12-29.csv
 
 # ignore DS Store
 **/.DS_Store
