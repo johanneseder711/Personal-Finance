@@ -38,7 +38,7 @@ def get_flatex_balance():
 
     # enter credentials
     driver.find_element(By.ID,'uname_app').send_keys(user)
-    time.sleep(0.1)
+    time.sleep(1)
     driver.find_element(By.ID,"password_app").send_keys(pw)
     # click the login button
     driver.find_element(By.CSS_SELECTOR,"button.button").click()
