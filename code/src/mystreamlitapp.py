@@ -1,12 +1,12 @@
 import streamlit as st
 import pandas as pd
 
-# create page title
-st.title('Personal Finanz Tracker')
-st.header('Übersicht und Zusammenfassung von Vermögen')
+
 
 def render_web_data(total_flatex_value, absolute_profit, total_raiffeisen_giro_value, total_raiffeisen_creditcard_value):
-	
+	# create page title
+	st.title('Personal Finanz Tracker')
+	st.header('Übersicht und Zusammenfassung von Vermögen')
 	# display values via metrics
 	col1, col2, col3 = st.columns(3)
 	col1.metric(label="Flatex Total Value", value=total_flatex_value + " €", delta=absolute_profit + " €")
