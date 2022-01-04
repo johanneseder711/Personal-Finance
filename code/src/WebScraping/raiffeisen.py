@@ -2,18 +2,8 @@ import streamlit as st
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from WebScraping.helperfunctions.wait import wait_for_full_load
+from WebScraping.helperfunctions.credentials import get_credentials
 
-# define the path to the credentials file
-PATH_CREDENTIALS = '../../data/Credentials/my_credentials.txt'
-
-# read in the file line by line and store the credentials
-# new credentials start with a # and the name of the credentials site
-# in the next two lines there are the username and password stored in the file
-credentials_dict = {}
-with open(PATH_CREDENTIALS) as f:
-    for line in f:
-        if line.startswith('#'):
-            credentials_dict[line.split()[1]] = [next(f).split()[0],next(f).split()[0]]
 
 # cache this function in streamlit not to rerun it all the time when modifying the script
 # Get Raiffeisen Account Information
@@ -21,6 +11,9 @@ with open(PATH_CREDENTIALS) as f:
 def get_raiffaisen_balance():
     # define the url to be scraped
     URL = "https://sso.raiffeisen.at/mein-login/identify"
+    # get the correct login credentials for this site
+    user, pw = get_credentials(URL)
+    
     # start the session
     driver = webdriver.Safari()
     driver.get(URL)
@@ -32,12 +25,6 @@ def get_raiffaisen_balance():
     driver.find_element(By.XPATH,"//*[@id='rds-select-0']").click()
     # to select the right bank (Oberösterreich)
     driver.find_element(By.XPATH,"//*[@id='rds-option-4']/span").click()
-
-
-    # extract login information from dict
-    for key in credentials_dict.keys():
-        if key.lower() in URL:
-            user, pw = credentials_dict[key]
 
     # input username
     driver.find_element(By.XPATH,"//*[@id='rds-input-0']").send_keys(user)

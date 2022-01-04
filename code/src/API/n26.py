@@ -16,13 +16,15 @@ def get_n26_balance():
 	statements = api_client.get_transactions()
 	last_transaction_found = False
 	counter = 0
+	# define space name or list of spaces
+	spaces = ['Hawaii']
 	# while the last transaction is not found
 	while not last_transaction_found:
-		# iterate over the dicctionary
-		if 'Hawaii' in statements[counter]['partnerName']:
+		# iterate over the dicctionary while we have a transaction between main space and other spaces
+		# there transactions do not show as a payment (income or expense), so they will be excluded
+		if ('partnerName' in statements[counter]) and (any(space in statements[counter]['partnerName'] for space in spaces)):
 			counter += 1
 		else:
-			# is the dicct contains a key named partnerName -> this is not a valid income stream or payment
 			last_transaction_found = True
 			last_transaction_amount = statements[counter]['amount']
 

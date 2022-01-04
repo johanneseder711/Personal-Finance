@@ -129,7 +129,7 @@ dmypy.json
 .pyre/
 
 # Credentials 
-/Credentials/my_credentials.txt
+data/Credentials/my_credentials.txt
 
 # ignore geckodriver.log
 /test\ streamlit/geckodriver.log
