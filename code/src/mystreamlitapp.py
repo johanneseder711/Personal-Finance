@@ -2,17 +2,23 @@ import streamlit as st
 import pandas as pd
 from datetime import date
 
-def render_web_data(total_flatex_value, absolute_profit, total_raiffeisen_giro_value, total_raiffeisen_creditcard_value, n26_balance, n26_last_transaction):
+def render_web_data(total_flatex_value, absolute_profit, total_raiffeisen_giro_value, total_raiffeisen_creditcard_value, n26_balance, n26_last_transaction, total_bank99_balance):
 	# create page title
 	st.title('Personal Finanz Tracker')
-	st.header('Übersicht und Zusammenfassung von Vermögen')
+	st.header('Summe Vermögen')
+	st.markdown('# <center><font color="gold">78.469,14 €</font></center>',unsafe_allow_html=True)
+
+	st.subheader('Aufgliederung nach Vermögenswerten')
 	# display values via metrics
 	l1_col1, l1_col2 = st.columns(2)
 	l2_col1, l2_col2 = st.columns(2)
+
 	l1_col1.metric(label="Flatex Total Value", value=total_flatex_value + " €", delta=absolute_profit + " €")
 	l1_col2.metric(label='Raiffeisen Giro Total Value', value = total_raiffeisen_giro_value + " €")
 	l2_col1.metric(label='Raiffeisen Creditcard Total Value', value = total_raiffeisen_creditcard_value + " €")
 	l2_col2.metric(label='N26 Total Value', value=n26_balance + " €", delta=n26_last_transaction + " €")
+	st.metric(label='Bank99 Total Value', value=total_bank99_balance + " €")
+
 
 def render_df(PATH_DATA):
 
