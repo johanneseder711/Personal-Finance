@@ -1,23 +1,57 @@
 import streamlit as st
 import pandas as pd
 from datetime import date
+from WebScraping.dvag import input_tan
 
-def render_web_data(total_flatex_value, absolute_profit, total_raiffeisen_giro_value, total_raiffeisen_creditcard_value, n26_balance, n26_last_transaction, total_bank99_balance):
+def render_web_data(**kwargs):
 	# create page title
 	st.title('Personal Finanz Tracker')
 	st.header('Summe Vermögen')
-	st.markdown('# <center><font color="gold">78.469,14 €</font></center>',unsafe_allow_html=True)
+
+	placeholder = st.empty()
+	print(kwargs)
+
+	barvermögen = placeholder.number_input('Bitte Barvermögen eingeben',value=0)
+	if barvermögen != 0:
+		placeholder.empty()
+
+	total = float(barvermögen)
+
+	for key in kwargs:
+		if 'absolute' not in key.lower():
+			total = total + float(str(kwargs[key]).replace('.','').replace(',','.'))
+	
+	total_str_front = str(total).split('.')[0]
+	num_digits = len(total_str_front)
+	rest = str(total).split('.')[1]
+	# every 3 digits we need a seperator
+	num_digits -= 3
+	# only if the number has at least 4 digits
+	while num_digits > 0:
+		total_str_front = total_str_front[:num_digits] + '.' + total_str_front[num_digits:]
+		num_digits -= 3
+	
+	total_str = total_str_front + ',' + rest
+
+
+	st.markdown('# <center><font color="gold"> %s €</font></center>'%total_str,unsafe_allow_html=True)
 
 	st.subheader('Aufgliederung nach Vermögenswerten')
 	# display values via metrics
 	l1_col1, l1_col2 = st.columns(2)
 	l2_col1, l2_col2 = st.columns(2)
+	l3_col1, l3_col2 = st.columns(2)
 
-	l1_col1.metric(label="Flatex Total Value", value=total_flatex_value + " €", delta=absolute_profit + " €")
-	l1_col2.metric(label='Raiffeisen Giro Total Value', value = total_raiffeisen_giro_value + " €")
-	l2_col1.metric(label='Raiffeisen Creditcard Total Value', value = total_raiffeisen_creditcard_value + " €")
-	l2_col2.metric(label='N26 Total Value', value=n26_balance + " €", delta=n26_last_transaction + " €")
-	st.metric(label='Bank99 Total Value', value=total_bank99_balance + " €")
+	st.metric(label='Barvermögen Total Value', value = str(barvermögen) + ' €')
+
+	l1_col1.metric(label="Flatex Total Value", value=kwargs['total_flatex_value'] + " €", delta=kwargs['absolute_profit'] + " €")
+	l1_col2.metric(label='Raiffeisen Giro Total Value', value = kwargs['total_raiffeisen_giro_value'] + " €")
+	l2_col1.metric(label='Raiffeisen Creditcard Total Value', value = kwargs['total_raiffeisen_creditcard_value'] + " €")
+	l2_col2.metric(label='N26 Total Value', value=kwargs['n26_balance'] + " €", delta=kwargs['n26_last_transaction'] + " €")
+
+	l3_col1.metric(label='Bank99 Total Value', value=kwargs['total_bank99_balance'] + " €")
+	l3_col2.metric(label='DVAG Total Value', value=str(kwargs['total_dvag_value']) + " €")
+
 
 
 def render_df(PATH_DATA):
