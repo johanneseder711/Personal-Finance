@@ -20,16 +20,23 @@ def get_bitpanda_balance():
     driver = webdriver.Safari()
     driver.get(URL)
     #driver.maximize_window()
-
+    time.sleep(5)
     # find the shadow root element to accept cookies
-    root1 = driver.find_element_by_tag_name('bpc-cookie-banner')
+    root1 = driver.find_element(By.TAG_NAME,'bpc-cookie-banner')
     shadow_root1 = expand_shadow_element(driver, root1)
-
-    print(shadow_root1)
-    driver
 
     # accept cookies
     # FINISHED HERE -> STILL NOT WORKING TO FIND THE CORRECT ROOT SHADOW ELEMENT AND ACCEPT COOKIES
     # REFFERE https://stackoverflow.com/questions/37384458/how-to-handle-elements-inside-shadow-dom-from-selenium
-    #accept_button = shadow_root1.find_element(By.CLASS_NAME,"bpc-cookie-accept-button")
-    #accept_button.click()
+    expanded_driver = shadow_root1.find_element(By.CLASS_NAME,"bpc-cookie-accept-button").click()
+
+    # wait for full load
+    wait_for_full_load(expanded_driver,"login-submit",how='id')
+    # input username/email
+    expanded_driver.find_element(By.ID,"email").send_keys(user)
+    time.sleep(5)
+    # input password
+    expanded_driver.find_element(By.ID,"password']").send_keys(pw)
+
+    # click login submit button
+    expanded_driver.find_element(By.ID, "login-submit").click()

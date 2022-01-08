@@ -40,11 +40,9 @@ def get_raiffaisen_balance():
 
     # extract information on account balance
     total_raiffeisen_giro_value = driver.find_elements(By.XPATH, """//*[@id="rds-scrub-item-1-0"]/div/rds-card/div/rds-card-content/span[2]""")[0].text.split()[0]
-    print('total raiffaisen giro balance: ',total_raiffeisen_giro_value)
 
     # extract creditcard balance
     total_raiffeisen_creditcard_value = driver.find_elements(By.XPATH, """//*[@id="rds-scrub-item-1-1"]/div/rds-card/div/rds-card-content/span[2]""")[0].text.split()[0]
-    print('total raiffaisen creditcard balance: ',total_raiffeisen_creditcard_value)
 
     # close driver
     driver.close()

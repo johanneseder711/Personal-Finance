@@ -57,7 +57,8 @@ def get_flatex_balance():
     total_flatex_paid = driver.find_elements(By.XPATH, "//td[@class='C4 footer']")[1].text.split()[0]
     absolute_profit = driver.find_elements(By.XPATH, "//td[@class='C5 footer']")[0].text.split()[0]
     relative_profit = driver.find_elements(By.XPATH, "//td[@class='C5 footer']")[1].text.split()[0]
+    absolute_delta_day_before = driver.find_elements(By.XPATH, """//*[@id="depositStatementForm_depositStatementTable"]/tbody/tr/td/table[2]/tfoot/tr[1]/td[2]/span""")[0].text.split()[0]
+    relative_delta_day_before = driver.find_elements(By.XPATH,"""//*[@id="depositStatementForm_depositStatementTable"]/tbody/tr/td/table[2]/tfoot/tr[2]/td[2]/span""")[0].text.split()[0]
     driver.close()
-    print('total flatex value: ',total_flatex_value)
-    print('total flatex paid: ', total_flatex_paid)
-    return (total_flatex_value,absolute_profit)
+    
+    return (total_flatex_value,absolute_delta_day_before)

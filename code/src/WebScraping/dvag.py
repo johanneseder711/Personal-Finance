@@ -27,7 +27,7 @@ def get_dvag_balance():
         # start the session
         driver = webdriver.Safari()
         driver.get(URL)
-        #driver.maximize_window()
+        driver.maximize_window()
 
         # wait for full load
         wait_for_full_load(driver,"loginform:benutzername",how='id')
@@ -57,7 +57,6 @@ def input_tan():
     global total_dvag_value
     global counter
     counter += 1
-    print(counter)
 
     tan = st.session_state['tan']
 
