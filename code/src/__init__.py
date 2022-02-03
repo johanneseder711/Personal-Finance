@@ -18,7 +18,7 @@ def main():
 
 	total_dvag_value = get_dvag_balance()
 
-	# get_bitpanda_balance()
+	get_bitpanda_balance()
 
 
 	# render overview of account balances

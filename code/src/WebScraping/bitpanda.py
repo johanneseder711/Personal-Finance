@@ -25,10 +25,13 @@ def get_bitpanda_balance():
     root1 = driver.find_element(By.TAG_NAME,'bpc-cookie-banner')
     shadow_root1 = expand_shadow_element(driver, root1)
 
+    print('\n \n \n shadow_root1 element',shadow_root1)
     # accept cookies
     # FINISHED HERE -> STILL NOT WORKING TO FIND THE CORRECT ROOT SHADOW ELEMENT AND ACCEPT COOKIES
     # REFFERE https://stackoverflow.com/questions/37384458/how-to-handle-elements-inside-shadow-dom-from-selenium
     expanded_driver = shadow_root1.find_element(By.CLASS_NAME,"bpc-cookie-accept-button").click()
+
+    print('\n \n \n \n expanded_driver element',expanded_driver)
 
     # wait for full load
     wait_for_full_load(expanded_driver,"login-submit",how='id')

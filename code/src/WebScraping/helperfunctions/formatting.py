@@ -15,7 +15,9 @@ def format_string(number):
 	# if not we have a decimal part and we can extract that deciaml number
 	if len(splitted) == 2:
 		# get the decimal number part
-		decimals = splitted[1]
+		decimals = splitted[1][:2]
+		# format to have 2 decimal places
+		decimals = decimals + "0" if len(splitted[1][:2]) < 2 else decimals
 	# else we expect the deciaml part to be only 00
 	else:
 		decimals = "00"

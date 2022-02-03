@@ -11,7 +11,7 @@ counter = 0
 
 # cache this function in streamlit not to rerun it all the time when modifying the script
 # should be cached if running test mode but should be turned off when in production mode
-# @st.cache(suppress_st_warning=True)
+@st.cache(suppress_st_warning=True)
 def get_dvag_balance():
 
     global driver
