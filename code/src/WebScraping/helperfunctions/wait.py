@@ -11,11 +11,14 @@ def wait_for_full_load(driver, path, how='xpath'):
         # check if at least one element is already available on the site
         if how == 'xpath': 
             elements = driver.find_elements(By.XPATH, path)
+            print(len(elements))
         elif how == 'css':
             elements = driver.find_elements(By.CSS_SELECTOR, path)
         elif how == 'id':
             elements = driver.find_elements(By.ID, path)
+        
         if len(elements)!=0: 
+            waiting = False
             return;
         else:
             time.sleep(1)

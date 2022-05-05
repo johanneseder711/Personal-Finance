@@ -16,7 +16,7 @@ def get_bank99_balance():
     # start the session
     driver = webdriver.Safari()
     driver.get(URL)
-    #driver.maximize_window()
+    driver.maximize_window()
 
     wait_for_full_load(driver,"number",how='id')
 
@@ -26,9 +26,13 @@ def get_bank99_balance():
     # click the login button
     driver.find_element(By.XPATH,"//*[@id='id3']/fieldset/div[5]/input").click()
 
-    wait_for_full_load(driver,"""//*[@id="idd"]/div[3]/div/div/div/table/tbody/tr[2]/td[4]/span""")
+    print('got before waiting for full load')
+    wait_for_full_load(driver,"""//*[@id="id11"]/tr/td[1]/span/span[2]/span""")
 
-    total_bank99_balance = driver.find_element(By.XPATH,"""//*[@id="idd"]/div[3]/div/div/div/table/tbody/tr[2]/td[4]/span""").text.split()[1]
+    print('got before get balance')
+    total_bank99_balance = driver.find_element(By.XPATH,"""//*[@id="id11"]/tr/td[1]/span/span[2]/span""").text.split()[0]
+    print('got after getting balance')
+
     driver.close()
 
     return total_bank99_balance
